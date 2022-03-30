@@ -2,14 +2,16 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const mysql = require('mysql');
+const dotenv = require('dotenv');
 
+dotenv.config({path: './.env'});
 
 const db = mysql.createConnection({
-    host: '',
-    user: '',
-    password: '',
-    port: '',
-    database: 'e'
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    port: process.env.DATABASE_PORT,
+    database: process.env.DATABASE
 });
 
 
@@ -25,18 +27,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.post('/api/insert', (req, res)=>{
-
-    const userr = req.body.usery;
-    const pass = req.body.passy;
+app.post('/api/register', (req, res)=>{
     
-    const sqlInsert = `INSERT INTO User (username, password) VALUES ('${userr}','${pass}')`;
-     db.query(sqlInsert, (err, result)=>{
-             console.log(err);
+    const username = req.body.username
+    const password = req.body.password
 
-     });
-    res.send();
-       
+    db.query(
+        "INSERT INTO User (username, password) VALUES (?,?)",
+        [username, password],
+        (err, result) => {
+            console.log(err);
+        }
+    );      
 });
 
 app.get('/api/get', (req, res)=>{
@@ -47,6 +49,8 @@ app.get('/api/get', (req, res)=>{
     });
     
 });
+
+app.post
 
 app.listen(3001, () => {
     console.log('runnin on port 3001');
