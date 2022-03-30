@@ -15,10 +15,10 @@ open two terminals:
    
  in the second terminal:
  
-  cd server
+    cd server
   
-  npm install
+    npm install
   
-  npm run dev
+    npm run dev
   
 if the server crashes double check that you have the correct sql conn parameters <3
