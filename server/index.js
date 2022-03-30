@@ -75,11 +75,32 @@ app.post('/api/register', (req, res)=>{
      
 });
 
+const verifyJWT = (req, res, next) => {
+    const token = req.headers["x-access-token"]
+
+    if (!token) {
+        res.send("Ripperino. No token.");
+    } else {
+        jwt.verify(token, process.env.SECRET, (err, decoded) => {
+            if (err) {
+                res.json({auth: false, message: "FAILURE"});
+            } else {
+                req.userId = decoded.id;
+                next();
+            }
+        });
+    }
+};
+
+app.get("/api/isUserAuth", verifyJWT, (req, res) => {
+    res.send("Winner winner chicken authenticator.")
+});
+
 app.get("/api/login", (req, res) => {
     if (req.session.user) {
-        res.send({loggedIn: true, user: req.session.user});
+        res.json({auth: true, user: req.session.user});
     } else {
-        res.send({ loggedIn: false});
+        res.json({ loggedIn: false});
     }
 });
 
@@ -105,13 +126,13 @@ app.post('/api/login', (req, res)=>{
                         })
 
                         req.session.user = result;
-                        res.send(result);
+                        res.json({auth: true, token: token, result: result});
                     } else {
-                        res.send({message: "Invalid Username/Password"});
+                        res.json({auth: false, message: "Invalid Username/Password"});
                     }
                 })
             } else {
-                res.send({message: "User doesn't exist"});
+                res.json({auth: false, message: "User doesn't exist"});
             }
             
         }

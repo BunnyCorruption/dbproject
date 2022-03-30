@@ -9,25 +9,35 @@ import "../pretty.css";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loginStatus, setLoginStatus] = useState("");
+  const [loginStatus, setLoginStatus] = useState(false);
   const nav = useNavigate();
 
   Axios.defaults.withCredentials = true;
+
   const login = () => {
       Axios.post('http://localhost:3001/api/login', {
           username: username, 
           password: password,
         }).then((response) => {
 
-            if (response.data.message) {
-                setLoginStatus(response.data.message);
+            if (!response.data.auth) {
+                setLoginStatus(false);
                 
             } else {
-                setLoginStatus(response.data[0].username);
+                localStorage.setItem("token", response.data.token)
+                setLoginStatus(true);
             }
         });
   };
 
+  const userAuthent = () => {
+      Axios.get("http://localhost:3001/api/isUserAuth", {
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+        },}).then((response) => {
+            console.log(response);
+        })
+  }
   useEffect(() => {
       Axios.get("http://localhost:3001/api/login").then((response) => {
         //   if (response.data.loggedIn === true) {
@@ -87,6 +97,7 @@ export default function Login() {
                                 setPassword(e.target.value);}}required />
                         </Form.Group>
                         <Button className="w-100 mt-4" type="submit">Log In</Button>
+                        {loginStatus && <Button onClick={userAuthent}>Check if Auth</Button>}
                         <div className='w-100 text-center mt-2'>
                             <Link to="/register">Register</Link>
                         </div>
