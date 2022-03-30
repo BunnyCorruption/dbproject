@@ -12,6 +12,8 @@ export default function Signup() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  Axios.defaults.withCredentials = true;
   // Register function
   const register = () => {
       Axios.post('http://localhost:3001/api/register', {
@@ -61,19 +63,19 @@ export default function Signup() {
                     <Form onSubmit={register}>
                         <Form.Group id="username">
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="text" name="uname" 
+                            <Form.Control type="text" name="username" 
                                 onChange={(e)=> {
                                 setUsername(e.target.value);}} required /> 
                         </Form.Group>
                         <Form.Group className="mt-2" id="password">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" name="pass" 
+                            <Form.Control type="password" name="password" 
                                 onChange={(e)=> {
                                 setPassword(e.target.value);}}required />
                         </Form.Group>
                         <Button className="w-100 mt-4" type="submit">Register</Button>
                         <div className='w-100 text-center mt-2'>
-                            <Link to="/login">Login</Link>
+                            <Link to="/">Login</Link>
                         </div>
                     </Form>
                 </Card.Body> 

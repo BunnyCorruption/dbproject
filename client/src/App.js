@@ -3,17 +3,16 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Container } from "react-bootstrap";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Main from "./pages/Main";
 
 function App() {
 
   return (         
       <Router>
         <Routes>
-          {/* <Route path="/" element={ <PrivateRoute><HomePage /></PrivateRoute> }/>
-          <Route path="/update" element={ <PrivateRoute><UpdatePage /></PrivateRoute> }/>     */}
           <Route path="/register" element={ <Signup /> } />
-          <Route path="/login" element={ <Login /> } />
-          {/* <Route path="/forgot" element={ <ForgotPage /> } />  */}
+          <Route path="/" element={ <Login /> } />
+          <Route path="/main" element={<Main />} />
         </Routes>
       </Router>
   );
