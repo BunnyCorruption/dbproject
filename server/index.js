@@ -3,6 +3,8 @@ const cors = require('cors');
 const app = express();
 const mysql = require('mysql');
 const dotenv = require('dotenv');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 dotenv.config({path: './.env'});
 
@@ -32,11 +34,47 @@ app.post('/api/register', (req, res)=>{
     const username = req.body.username
     const password = req.body.password
 
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+        if (err) {
+            console.log(err)
+        }
+
+        db.query(
+            "INSERT INTO User (username, password) VALUES (?,?)",
+            [username, hash],
+            (err, result) => {
+                console.log(err);
+            }
+        );     
+    });
+     
+});
+
+app.post('/api/login', (req, res)=>{
+    
+    const username = req.body.username
+    const password = req.body.password
+
     db.query(
-        "INSERT INTO User (username, password) VALUES (?,?)",
-        [username, password],
+        "SELECT * FROM User WHERE username = ?",
+        username,
         (err, result) => {
-            console.log(err);
+            if (err) {
+                res.send({err: err});
+            } 
+            
+            if (result.length > 0) {
+                bcrypt.compare(password, result[0].password, (error, response) => {
+                    if (response) {
+                        res.send(result)
+                    } else {
+                        res.send({message: "Invalid Username/Password"});
+                    }
+                })
+            } else {
+                res.send({message: "User doesn't exist"});
+            }
+            
         }
     );      
 });

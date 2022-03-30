@@ -12,8 +12,8 @@ function App() {
           {/* <Route path="/" element={ <PrivateRoute><HomePage /></PrivateRoute> }/>
           <Route path="/update" element={ <PrivateRoute><UpdatePage /></PrivateRoute> }/>     */}
           <Route path="/register" element={ <Signup /> } />
-          {/* <Route path="/login" element={ <LoginPage /> } />
-          <Route path="/forgot" element={ <ForgotPage /> } /> */}
+          <Route path="/login" element={ <Login /> } />
+          {/* <Route path="/forgot" element={ <ForgotPage /> } />  */}
         </Routes>
       </Router>
   );
