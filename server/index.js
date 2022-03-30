@@ -3,8 +3,16 @@ const cors = require('cors');
 const app = express();
 const mysql = require('mysql');
 const dotenv = require('dotenv');
+
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+
+const jwt = require('jsonwebtoken');
+
 
 dotenv.config({path: './.env'});
 
@@ -25,9 +33,26 @@ db.connect(function(err) {
     console.log('Connected to database.');
 });
 
-app.use(cors());
 app.use(express.json());
+app.use(cors({
+    origin:["http://localhost:3000"],
+    methods: ["GET", "POST"],
+    credentials: true
+}));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.urlencoded({extended: true}));
+
+app.use(session({
+    key: "userID",
+    secret: "subscribe",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 60 * 60 * 24,
+    },
+}));
+
 
 app.post('/api/register', (req, res)=>{
     
@@ -50,6 +75,35 @@ app.post('/api/register', (req, res)=>{
      
 });
 
+const verifyJWT = (req, res, next) => {
+    const token = req.headers["x-access-token"]
+
+    if (!token) {
+        res.send("Ripperino. No token.");
+    } else {
+        jwt.verify(token, process.env.SECRET, (err, decoded) => {
+            if (err) {
+                res.json({auth: false, message: "FAILURE"});
+            } else {
+                req.userId = decoded.id;
+                next();
+            }
+        });
+    }
+};
+
+app.get("/api/isUserAuth", verifyJWT, (req, res) => {
+    res.send("Winner winner chicken authenticator.")
+});
+
+app.get("/api/login", (req, res) => {
+    if (req.session.user) {
+        res.json({auth: true, user: req.session.user});
+    } else {
+        res.json({ loggedIn: false});
+    }
+});
+
 app.post('/api/login', (req, res)=>{
     
     const username = req.body.username
@@ -66,13 +120,19 @@ app.post('/api/login', (req, res)=>{
             if (result.length > 0) {
                 bcrypt.compare(password, result[0].password, (error, response) => {
                     if (response) {
-                        res.send(result)
+                        const id = result[0].id;
+                        const token = jwt.sign({id}, process.env.SECRET, {
+                            expiresIn: 300,     
+                        })
+
+                        req.session.user = result;
+                        res.json({auth: true, token: token, result: result});
                     } else {
-                        res.send({message: "Invalid Username/Password"});
+                        res.json({auth: false, message: "Invalid Username/Password"});
                     }
                 })
             } else {
-                res.send({message: "User doesn't exist"});
+                res.json({auth: false, message: "User doesn't exist"});
             }
             
         }
@@ -87,8 +147,6 @@ app.get('/api/get', (req, res)=>{
     });
     
 });
-
-app.post
 
 app.listen(3001, () => {
     console.log('runnin on port 3001');
