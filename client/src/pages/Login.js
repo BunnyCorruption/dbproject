@@ -65,7 +65,7 @@ export default function Login() {
     <>  
         <Navbar bg="dark" variant="dark">
             <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/">
             <img
             alt=""
             src="/pngwing.com.png"
