@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
+// JWT
 const jwt = require('jsonwebtoken');
 
 
@@ -85,7 +86,7 @@ const verifyJWT = (req, res, next) => {
             if (err) {
                 res.json({auth: false, message: "FAILURE"});
             } else {
-                req.userId = decoded.id;
+                req.userId = decoded.uid;
                 next();
             }
         });
@@ -120,13 +121,13 @@ app.post('/api/login', (req, res)=>{
             if (result.length > 0) {
                 bcrypt.compare(password, result[0].password, (error, response) => {
                     if (response) {
-                        const id = result[0].id;
-                        const token = jwt.sign({id}, process.env.SECRET, {
+                        const id = result[0].uid;
+                        const token = jwt.sign({uid}, process.env.SECRET, {
                             expiresIn: 300,     
                         })
 
                         req.session.user = result;
-                        res.json({auth: true, token: token, result: result});
+                        res.json({auth: true, token: token, result: result}); // passing every field from user table
                     } else {
                         res.json({auth: false, message: "Invalid Username/Password"});
                     }
