@@ -145,7 +145,7 @@ app.post('/api/login', (req, res)=>{
 
 app.get('/api/get', (req, res)=>{
 
-    db.query("SELECT * FROM user", (err, result)=>{
+    db.query("SELECT * FROM User", (err, result)=>{
             console.log(err);
             console.log(result);
     });

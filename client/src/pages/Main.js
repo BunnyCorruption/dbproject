@@ -12,7 +12,7 @@ export default function Main() {
 
     Axios.defaults.withCredentials = true;
     const logout = () => {
-        window.cookie
+        //window.cookie
         
     };
 
@@ -38,7 +38,7 @@ export default function Main() {
                 <Card>
                     <Card.Body>
                         <h2 className="text-center mb-4">Main</h2>
-                        <Button className="w-100 mt-4" type="submit">Logout</Button>
+                        <Button className="w-100 mt-4" onclick="logout">Logout</Button>
                     </Card.Body> 
                 </Card>
             </Container>
