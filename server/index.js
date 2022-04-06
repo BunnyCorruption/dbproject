@@ -12,8 +12,25 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 // JWT
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); // WHALE
 
+//WHALE
+const verifyJWT = (req, res, next) => {
+    const authHeader = req.headers["x-access-token"]
+    const token = authHeader && authHeader.split('')[1]
+    if (!token) {
+        res.send("Ripperino. No token.");
+    } else {
+        jwt.verify(token, process.env.SECRET, (err, decoded) => {
+            if (err) {
+                res.json({auth: false, message: "FAILURE"});
+            } else {
+                req.userId = decoded.uid;
+                next();
+            }
+        });
+    }
+};
 
 dotenv.config({path: './.env'});
 
@@ -76,39 +93,24 @@ app.post('/api/register', (req, res)=>{
      
 });
 
-const verifyJWT = (req, res, next) => {
-    const token = req.headers["x-access-token"]
-
-    if (!token) {
-        res.send("Ripperino. No token.");
-    } else {
-        jwt.verify(token, process.env.SECRET, (err, decoded) => {
-            if (err) {
-                res.json({auth: false, message: "FAILURE"});
-            } else {
-                req.userId = decoded.uid;
-                next();
-            }
-        });
-    }
-};
-
+// WHALE
 app.get("/api/isUserAuth", verifyJWT, (req, res) => {
-    res.send("Winner winner chicken authenticator.")
+    res.send("work in progress")
+    // res.json(db.filter(post => post.username === req.user.name))
 });
 
 app.get("/api/login", (req, res) => {
     if (req.session.user) {
-        res.json({auth: true, user: req.session.user});
+        res.send({loggedIn: true, user: req.session.user});
     } else {
-        res.json({ loggedIn: false});
+        res.send({ loggedIn: false});
     }
 });
 
 app.post('/api/login', (req, res)=>{
     
-    const username = req.body.username
-    const password = req.body.password
+    const username = req.body.username;
+    const password = req.body.password;
 
     db.query(
         "SELECT * FROM User WHERE username = ?",
@@ -121,13 +123,14 @@ app.post('/api/login', (req, res)=>{
             if (result.length > 0) {
                 bcrypt.compare(password, result[0].password, (error, response) => {
                     if (response) {
-                        const id = result[0].uid;
-                        const token = jwt.sign({uid}, process.env.SECRET, {
+                        const id = result[0].uid; // WHALE
+                        //WHALE
+                        const token = jwt.sign({id}, process.env.SECRET, { 
                             expiresIn: 300,     
                         })
 
-                        req.session.user = result;
-                        res.json({auth: true, token: token, result: result}); // passing every field from user table
+                        req.session.user = result; // WHALE
+                        res.json({auth: true, token: token, result: result}); // passing every field from user table WHALE
                     } else {
                         res.json({auth: false, message: "Invalid Username/Password"});
                     }
