@@ -1,15 +1,28 @@
-import React, { Component } from "react";
-import { Card, Form, Button, Navbar, Container } from "react-bootstrap";
+import React, { } from "react";
+import { Card, Button, Navbar, Container } from "react-bootstrap";
+import Axios from 'axios';
 
-export default function RSO() {
-  var state = {
-    listitems: [
-      { id: 0, college: "UCF", quantity: 0 },
-      { id: 1, college: "UF", quantity: 0 },
-      { id: 2, college: "College of Ye-Ye ass haircuts", quantity: 0 },
-    ],
+
+export default class RSO extends React.Component {
+  
+  state = {
+    schools: []
+  }
+
+  componentDidMount(){
+    Axios.get('http://localhost:3001/api/get/rso/').then(res => {
+      console.log(res.data);
+      const schools = res.data;
+      this.setState({schools});
+    })
   };
 
+  suggestRSO(){
+    console.log('ye');
+    Axios.post('http://localhost:3001/api/post/rso/')
+  }
+
+render(){
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -46,17 +59,14 @@ export default function RSO() {
             <Card.Body>
               <h2 className="text-center mb-4">RSO</h2>
               <ul className="list-group">
-                {state.listitems.map((listitem) => (
+                {this.state.schools.map((listitem) => (
                   <li
                     className="list-group-item list-group-item-primary p-2"
-                    key={listitem.id}
+                    key={listitem.rsoid}
                   >
                     <div className="d-flex justify-content-between">
                       <div>
-                      {listitem.college} 
-                      </div>
-                      <div className="text-right">
-                      {listitem.quantity}
+                      {listitem.rName} 
                       </div>
                       <Button >Join</Button>
                     </div>
@@ -65,11 +75,12 @@ export default function RSO() {
                   </li>
                 ))}
               </ul>
-              <Button className="w-100 mt-4">Logout</Button>
+              <Button onClick={this.suggestRSO} className="w-100 mt-4">Return</Button>
             </Card.Body>
           </Card>
         </Container>
       </div>
     </>
   );
+}
 }

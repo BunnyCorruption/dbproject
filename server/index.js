@@ -152,6 +152,24 @@ app.get('/api/get', (req, res)=>{
     
 });
 
+app.get('/api/get/rso', (req, res) =>{
+
+     db.query("SELECT * FROM RSO", (err, result)=>{
+        console.log(result);
+        return res.json(result);
+    })
+    
+})
+
+app.post('/api/post/rso', (req, res) =>{
+
+    const schoolName = req.body.newrso
+
+    db.query("INSERT INTO RSO (rName) VALUES (?)", schoolName, (err, result)=>{
+       console.log(err);
+   })
+   
+})
 app.listen(3001, () => {
     console.log('runnin on port 3001');
 });
