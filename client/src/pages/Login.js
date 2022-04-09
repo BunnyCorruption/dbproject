@@ -97,7 +97,6 @@ export default function Login() {
                                 setPassword(e.target.value);}}required />
                         </Form.Group>
                         <Button className="w-100 mt-4" type="submit">Log In</Button>
-                        {loginStatus && <Button onClick={userAuthent}>Check if Auth</Button>}
                         <div className='w-100 text-center mt-2'>
                             <Link to="/register">Register</Link>
                         </div>
