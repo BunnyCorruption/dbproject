@@ -1,7 +1,20 @@
-import React, { Component } from "react";
-import { Card, Form, Button, Navbar, Container } from "react-bootstrap";
+import React, {  } from "react";
+import { Modal, Button, Navbar, Container, Form  } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Home() {
+
+  const [show, setShow] = React.useState(false);
+  const handleOpen = () => setShow(true);
+  const handleClose = () => setShow(false);
+  
+  let navigate = useNavigate();
+  const routeChange = () =>{ 
+    let path = `/rso`; 
+    navigate(path);
+  }
+
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -17,10 +30,10 @@ export default function Home() {
             Calend-R-U-Coming?
           </Navbar.Brand>
           <div>
-            <Button type="button" className="pull-right">
+            <Button type="button" className="pull-right" onClick={handleOpen}>
               Create an Event
             </Button>
-            <Button type="button" className="mx-4 pull-right">
+            <Button type="button" className="mx-4 pull-right" onClick={routeChange}>
               Join an RSO
             </Button>
             <Button type="button" className="pull-right btn btn-warning">
@@ -30,6 +43,22 @@ export default function Home() {
         </Container>
       </Navbar>
       <div className="bg">
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>New Event</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><Form>
+          <Form.Group>
+
+          </Form.Group>
+          </Form>
+          </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            Save Event
+          </Button>
+        </Modal.Footer>
+      </Modal>
         {/* build page here por'favor */}
       </div>
     </>
