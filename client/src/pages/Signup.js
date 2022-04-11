@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Card, Form, Button, Navbar, Container } from "react-bootstrap";
+import { Modal, Card, Form, Button, Navbar, Container, Dropdown, DropdownButton } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import index from "../"
 import Axios from 'axios';
@@ -12,6 +12,10 @@ export default function Signup() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   Axios.defaults.withCredentials = true;
   // Register function
@@ -19,8 +23,8 @@ export default function Signup() {
       Axios.post('http://localhost:3001/api/register', {
           username: username, 
           password: password,
+          role: role,
         }).then((response) => {
-            console.log(response);
             alert("Registration Successful!");
         });
   };
@@ -72,6 +76,16 @@ export default function Signup() {
                             <Form.Control type="password" name="password" 
                                 onChange={(e)=> {
                                 setPassword(e.target.value);}}required />
+                        </Form.Group>
+                        <Form.Group className="mt-3" id="role">
+                            <Form.Select aria-label="Default select example"  name="role" 
+                                    onChange={(e)=> {
+                                    setRole(e.target.value);}}required>
+                                <option>Select Role</option>
+                                <option value="Student">Student</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Super Admin">Super Admin</option>
+                            </Form.Select>
                         </Form.Group>
                         <Button className="w-100 mt-4" type="submit">Register</Button>
                         <div className='w-100 text-center mt-2'>

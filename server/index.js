@@ -77,6 +77,7 @@ app.use(
 app.post("/api/register", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
+  const role = req.body.role;
 
   bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) {
@@ -84,8 +85,8 @@ app.post("/api/register", (req, res) => {
     }
 
     db.query(
-      "INSERT INTO User (username, password) VALUES (?,?)",
-      [username, hash],
+      "INSERT INTO User (username, password, role) VALUES (?,?,?)",
+      [username, hash, role],
       (err, result) => {
         console.log(err);
       }
