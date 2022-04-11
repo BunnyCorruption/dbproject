@@ -9,6 +9,7 @@ import "../pretty.css";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
   const [loginStatus, setLoginStatus] = useState(false);
   const nav = useNavigate();
 
@@ -28,7 +29,14 @@ export default function Login() {
                 setLoginStatus(true);
             }
         });
-  };
+
+        Axios.get("http://localhost:3001/api/login").then((response) => {
+          if (response.data.loggedIn === true) {
+              setRole(response.data.user[0].role);
+              if (role === "Student" || role === "Admin" || role === "Super Admin")
+                nav("/login");
+          }
+  });
 
   const userAuthent = () => {
       Axios.get("http://localhost:3001/api/isUserAuth", {
@@ -40,11 +48,9 @@ export default function Login() {
   }
   useEffect(() => {
       Axios.get("http://localhost:3001/api/login").then((response) => {
-        //   if (response.data.loggedIn === true) {
-        //       console.log(response);
-        //   }
-        console.log(response);
-        // nav("/main");
+          if (response.data.loggedIn === true) {
+              setRole(response.data.user[0].role);
+          }
       });
   }, []);
 
@@ -108,4 +114,4 @@ export default function Login() {
     </>
   );
 }
-
+}
