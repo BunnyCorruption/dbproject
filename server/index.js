@@ -152,6 +152,20 @@ app.get("/api/get/rso", (req, res) => {
   });
 });
 
+app.post("/api/event", (req, res) => {
+  const eName = req.body.eName;
+  const time = req.body.time;
+  const description = req.body.description;
+  const privacy = req.body.privacy;
+
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${eName}','${time}','${description}','${privacy}')`,
+    (err, result) => {
+      console.log(err);
+    }
+  );
+});
+
 app.post("/api/post/rso", (req, res) => {
   const schoolName = req.body.newrso;
   //console.log(schoolName);
