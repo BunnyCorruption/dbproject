@@ -1,7 +1,8 @@
 import React from "react";
 import { Card, Button, Navbar, Container } from "react-bootstrap";
 import Axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 export default class RSO extends React.Component {
   schoolName;
@@ -46,9 +47,11 @@ export default class RSO extends React.Component {
               Calend-R-U-Coming?
             </Navbar.Brand>
             <div>
-              <Button type="button" className="mx-4 pull-right" >
+              <Link to="/Home">
+              <Button type="button" className="mx-4 pull-right">
                 Main Page
               </Button>
+              </Link>
               <Button type="button" className="pull-right btn btn-warning">
                 Logout
               </Button>
