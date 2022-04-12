@@ -202,6 +202,15 @@ async function scrapeProduct(url){
   const txt3 = await el3.getProperty('textContent')
   const rawTxt3 = await txt3.jsonValue();
 
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
+
   const [el4] = await page.$x('//*[@id="calendar-events-day"]/ul/li[2]/h3/a');
   const txt4 = await el4.getProperty('textContent')
   const rawTxt4 = await txt4.jsonValue();
@@ -217,6 +226,15 @@ async function scrapeProduct(url){
   const [el7] = await page.$x('//*[@id="calendar-events-day"]/ul/li[2]/p/text()');
   const txt7 = await el7.getProperty('textContent')
   const rawTxt7 = await txt7.jsonValue();
+
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
 
   const [el8] = await page.$x('//*[@id="calendar-events-day"]/ul/li[3]/h3');
   const txt8 = await el8.getProperty('textContent')
@@ -234,11 +252,19 @@ async function scrapeProduct(url){
   const txt11 = await el11.getProperty('textContent')
   const rawTxt11 = await txt11.jsonValue();
 
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(rawTxt);
+    }
+  );
+
   //console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
 
   browser.close();
-}
-
+  }
 async function scrapeProduct1(url){
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -260,6 +286,15 @@ async function scrapeProduct1(url){
   const txt3 = await el3.getProperty('textContent')
   const rawTxt3 = await txt3.jsonValue();
 
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
+
   const [el4] = await page.$x('//*[@id="calendar-events-day"]/ul/li[5]/h3/a');
   const txt4 = await el4.getProperty('textContent')
   const rawTxt4 = await txt4.jsonValue();
@@ -275,6 +310,15 @@ async function scrapeProduct1(url){
   const [el7] = await page.$x('//*[@id="calendar-events-day"]/ul/li[5]/p/text()');
   const txt7 = await el7.getProperty('textContent')
   const rawTxt7 = await txt7.jsonValue();
+
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    } 
+  );
 
   const [el8] = await page.$x('//*[@id="calendar-events-day"]/ul/li[6]/h3/a');
   const txt8 = await el8.getProperty('textContent')
@@ -292,10 +336,20 @@ async function scrapeProduct1(url){
   const txt11 = await el11.getProperty('textContent')
   const rawTxt11 = await txt11.jsonValue();
 
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
+
   //console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
 
   browser.close();
 }
+
 
 async function scrapeProduct2(url){
   const browser = await puppeteer.launch();
@@ -320,6 +374,15 @@ async function scrapeProduct2(url){
   const txt3 = await el3.getProperty('textContent')
   const rawTxt3 = await txt3.jsonValue();
 
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
+
   const [el4] = await page.$x('//*[@id="calendar-events-day"]/ul/li[8]/h3/a');
   const txt4 = await el4.getProperty('textContent')
   const rawTxt4 = await txt4.jsonValue();
@@ -335,6 +398,15 @@ async function scrapeProduct2(url){
   const [el7] = await page.$x('//*[@id="calendar-events-day"]/ul/li[8]/p');
   const txt7 = await el7.getProperty('textContent')
   const rawTxt7 = await txt7.jsonValue();
+
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
 
   /*const [el8] = await page.$x('//*[@id="calendar-events-day"]/ul/li[9]/h3/a');
   const txt8 = await el8.getProperty('textContent')
@@ -378,6 +450,15 @@ async function scrapeProduct3(url){
   const txt3 = await el3.getProperty('textContent')
   const rawTxt3 = await txt3.jsonValue();
 
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
+
   const [el4] = await page.$x('//*[@id="calendar-events-day"]/ul/li[11]/h3/a');
   const txt4 = await el4.getProperty('textContent')
   const rawTxt4 = await txt4.jsonValue();
@@ -394,6 +475,15 @@ async function scrapeProduct3(url){
   const txt7 = await el7.getProperty('textContent')
   const rawTxt7 = await txt7.jsonValue();
 
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
+
   const [el8] = await page.$x('//*[@id="calendar-events-day"]/ul/li[12]/h3/a');
   const txt8 = await el8.getProperty('textContent')
   const rawTxt8 = await txt8.jsonValue();
@@ -409,6 +499,15 @@ async function scrapeProduct3(url){
   const [el11] = await page.$x('//*[@id="calendar-events-day"]/ul/li[12]/p/text()');
   const txt11 = await el11.getProperty('textContent')
   const rawTxt11 = await txt11.jsonValue();
+
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
 
   //console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
 
@@ -436,6 +535,15 @@ async function scrapeProduct4(url){
   const txt3 = await el3.getProperty('textContent')
   const rawTxt3 = await txt3.jsonValue();
 
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
+
   const [el4] = await page.$x('//*[@id="calendar-events-day"]/ul/li[14]/h3/a');
   const txt4 = await el4.getProperty('textContent')
   const rawTxt4 = await txt4.jsonValue();
@@ -451,6 +559,15 @@ async function scrapeProduct4(url){
   const [el7] = await page.$x('//*[@id="calendar-events-day"]/ul/li[14]/p/text()');
   const txt7 = await el7.getProperty('textContent')
   const rawTxt7 = await txt7.jsonValue();
+
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(result);
+    }
+  );
 
   const [el8] = await page.$x('//*[@id="calendar-events-day"]/ul/li[15]/h3/a');
   const txt8 = await el8.getProperty('textContent')
@@ -468,6 +585,15 @@ async function scrapeProduct4(url){
   const txt11 = await el11.getProperty('textContent')
   const rawTxt11 = await txt11.jsonValue();
 
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+      console.log(rawTxt8);
+    }
+  );
+
   //console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
 
   browser.close();
@@ -482,3 +608,4 @@ scrapeProduct4('https://events.ucf.edu');
 app.listen(3001, () => {
   console.log("runnin on port 3001");
 });
+
