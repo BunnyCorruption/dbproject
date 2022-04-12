@@ -19,6 +19,17 @@ export default function Home() {
     navigate(path);
   };
 
+  async function logout() {
+    Axios.get('http://localhost:3001/api/logout').then((response) => {
+
+          if (!response.data.auth) {
+              localStorage.setItem("token", "");
+              navigate('/');
+              
+          } 
+      });
+  };
+
   const createEvent = () => {
 
     Axios.post("http://localhost:3001/api/event", {
@@ -69,7 +80,7 @@ export default function Home() {
             >
               Join an RSO
             </Button>
-            <Button type="button" className="pull-right btn btn-warning">
+            <Button type="button" className="pull-right btn btn-warning" onClick={logout}>
               Logout
             </Button>
           </div>

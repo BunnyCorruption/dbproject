@@ -35,28 +35,28 @@ export default function Login() {
 //         });
 //     }
 
-async function log() {
-    Axios.post('http://localhost:3001/api/login', {
-        username: username, 
-        password: password,
-      }).then((response) => {
+    async function log() {
+        Axios.post('http://localhost:3001/api/login', {
+            username: username, 
+            password: password,
+        }).then((response) => {
 
-          if (!response.data.auth) {
-              setLoginStatus(false);
-              
-          } else {
-              localStorage.setItem("token", response.data.token)
-              setLoginStatus(true);
-          }
-      });
-  }
+            if (!response.data.auth) {
+                setLoginStatus(false);
+                
+            } else {
+                localStorage.setItem("token", response.data.token)
+                setLoginStatus(true);
+                navigate('/home');
+            }
+        });
+    }
 
     async function handleSubmit(e) {
         e.preventDefault()
 
         try {
             log();
-            navigate('/home')
         } catch { setLoginStatus(false) }
 
     }
