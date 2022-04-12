@@ -102,6 +102,13 @@ app.get("/api/isUserAuth", verifyJWT, (req, res) => {
   // res.json(db.filter(post => post.username === req.user.name))
 });
 
+app.get("/api/logout", async (req, res) => {
+  if (req.session.user) {
+    delete req.session.user;
+    res.json({result: 'SUCCESS'});
+  }
+})
+
 app.get("/api/login", (req, res) => {
   if (req.session.user) {
     res.send({ loggedIn: true, user: req.session.user });
