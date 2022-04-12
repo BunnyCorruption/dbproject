@@ -11,32 +11,54 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [loginStatus, setLoginStatus] = useState(false);
-  const nav = useNavigate();
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `/home`;
+    navigate(path);
+  };
 
   Axios.defaults.withCredentials = true;
 
-  const login = () => {
-      Axios.post('http://localhost:3001/api/login', {
-          username: username, 
-          password: password,
-        }).then((response) => {
+//   const login = () => {
+//       Axios.post('http://localhost:3001/api/login', {
+//           username: username, 
+//           password: password,
+//         }).then((response) => {
 
-            if (!response.data.auth) {
-                setLoginStatus(false);
+//             if (!response.data.auth) {
+//                 setLoginStatus(false);
                 
-            } else {
-                localStorage.setItem("token", response.data.token)
-                setLoginStatus(true);
-            }
-        });
+//             } else {
+//                 localStorage.setItem("token", response.data.token)
+//                 setLoginStatus(true);
+//             }
+//         });
+//     }
 
-        Axios.get("http://localhost:3001/api/login").then((response) => {
-          if (response.data.loggedIn === true) {
-              setRole(response.data.user[0].role);
-              if (role === "Student" || role === "Admin" || role === "Super Admin")
-                nav("/login");
+async function log() {
+    Axios.post('http://localhost:3001/api/login', {
+        username: username, 
+        password: password,
+      }).then((response) => {
+
+          if (!response.data.auth) {
+              setLoginStatus(false);
+              
+          } else {
+              localStorage.setItem("token", response.data.token)
+              setLoginStatus(true);
           }
-        });
+      });
+  }
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+
+        try {
+            log();
+            navigate('/home')
+        } catch { setLoginStatus(false) }
+
     }
 
   const userAuthent = () => {
@@ -92,7 +114,7 @@ export default function Login() {
             <Card>
                 <Card.Body>
                     <h2 className="text-center mb-4">Log In</h2>
-                    <Form onSubmit={login}>
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group id="username">
                             <Form.Label>Username</Form.Label>
                             <Form.Control type="text" name="username" 
