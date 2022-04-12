@@ -171,10 +171,14 @@ app.post("/api/event", (req, res) => {
 });
 
 app.post("/api/post/rso", (req, res) => {
-  const schoolName = req.body.newrso;
-  //console.log(schoolName);
-  const sqlInsert = `INSERT INTO RSO (rName) VALUES ('${schoolName}')`;
-  db.query(sqlInsert, (err, result) => {});
+  const newrso = req.body.newrso;
+  console.log(newrso);
+  const sqlInsert = `INSERT INTO RSO (name, count) VALUES ('${newrso}', 1)`;
+  db.query(sqlInsert, (err, result) => {
+    if(err)
+    console.log(err);
+    
+  });
 });
 
 async function scrapeProduct(url){
@@ -230,7 +234,7 @@ async function scrapeProduct(url){
   const txt11 = await el11.getProperty('textContent')
   const rawTxt11 = await txt11.jsonValue();
 
-  console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
+  //console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
 
   browser.close();
 }
@@ -288,7 +292,7 @@ async function scrapeProduct1(url){
   const txt11 = await el11.getProperty('textContent')
   const rawTxt11 = await txt11.jsonValue();
 
-  console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
+  //console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
 
   browser.close();
 }
@@ -348,7 +352,7 @@ async function scrapeProduct2(url){
   const txt11 = await el11.getProperty('textContent')
   const rawTxt11 = await txt11.jsonValue();*/
 
-  console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, /*rawTxt8, rawTxt9, rawTxt10, rawTxt11*/});
+  //console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, /*rawTxt8, rawTxt9, rawTxt10, rawTxt11*/});
 
   browser.close();
 }
@@ -406,7 +410,7 @@ async function scrapeProduct3(url){
   const txt11 = await el11.getProperty('textContent')
   const rawTxt11 = await txt11.jsonValue();
 
-  console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
+  //console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
 
   browser.close();
 }
@@ -464,7 +468,7 @@ async function scrapeProduct4(url){
   const txt11 = await el11.getProperty('textContent')
   const rawTxt11 = await txt11.jsonValue();
 
-  console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
+  //console.log({rawTxt, rawTxt1, rawTxt2, rawTxt3, rawTxt4, rawTxt5, rawTxt6, rawTxt7, rawTxt8, rawTxt9, rawTxt10, rawTxt11});
 
   browser.close();
 }
