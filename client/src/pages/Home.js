@@ -11,7 +11,7 @@ export default function Home() {
   const [time, setTime] = React.useState("");
   const [privacy, setPrivacy] = React.useState("");
   const [description, setDescription] = React.useState("");
-
+  
   let navigate = useNavigate();
   const routeChange = () => {
     let path = `/rso`;
@@ -20,13 +20,6 @@ export default function Home() {
 
   const createEvent = () => {
     
-    if(privacy === ''){
-      privacy = setPrivacy('Everyone');
-      console.log(privacy);
-      
-    
-
-    }
     Axios.post("http://localhost:3001/api/event", {
       eName: eName,
       time: time,
@@ -34,7 +27,6 @@ export default function Home() {
       privacy: privacy,
     }).then((response) => {
       console.log(response);
-      alert("Event Created!");
     }, (err)=>{
       console.log(err);
     });
@@ -115,6 +107,7 @@ export default function Home() {
                     }}
                   />
                   <Form.Group className="mt-3" id="privacy">
+                  <Form.Label>Privacy</Form.Label>
                     <Form.Select
                       aria-label="Default select example"
                       name="privacy"
@@ -123,10 +116,9 @@ export default function Home() {
                       }}
                       required
                     >
-                      <option disabled>Select Privacy</option>
                       <option value="Everyone">Everyone</option>
                       <option value="RSO">RSO</option>
-                      <option value="Admins Only">Admins Only</option>
+                      <option value="Admins Only">Private</option>
                     </Form.Select>
                   </Form.Group>
                   <Button className="w-100 mt-4" onClick={createEvent}>
