@@ -140,18 +140,19 @@ export default function Home() {
             </Card>
           </Modal.Body>
         </Modal>
+        <h1 className="text-center pt-2">
+                Events
+              </h1>
         <Container
           className="d-flex align-items-center justify-content-center"
-          style={{ minHeight: "100vh" }}
+          
         >
+          
           <Card
-            style={{ minWidth: 900, height: "800px", maxHeight: 600 }}
+            style={{ minWidth: 900, height: "550px", maxHeight: 600 }}
             className="overflow-auto m-4"
           >
             <Card.Body>
-              <h2 className="text-center">
-                Events
-              </h2>
               <ul className="list-group">
                 {events
                   .map((listitem) => (
