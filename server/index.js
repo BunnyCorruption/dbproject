@@ -203,7 +203,7 @@ async function scrapeProduct(url){
   const rawTxt3 = await txt3.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -228,7 +228,7 @@ async function scrapeProduct(url){
   const rawTxt7 = await txt7.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -253,7 +253,7 @@ async function scrapeProduct(url){
   const rawTxt11 = await txt11.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -287,7 +287,7 @@ async function scrapeProduct1(url){
   const rawTxt3 = await txt3.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -312,7 +312,7 @@ async function scrapeProduct1(url){
   const rawTxt7 = await txt7.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -337,7 +337,7 @@ async function scrapeProduct1(url){
   const rawTxt11 = await txt11.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -375,7 +375,7 @@ async function scrapeProduct2(url){
   const rawTxt3 = await txt3.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -400,7 +400,7 @@ async function scrapeProduct2(url){
   const rawTxt7 = await txt7.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -451,7 +451,7 @@ async function scrapeProduct3(url){
   const rawTxt3 = await txt3.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -476,7 +476,7 @@ async function scrapeProduct3(url){
   const rawTxt7 = await txt7.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -501,7 +501,7 @@ async function scrapeProduct3(url){
   const rawTxt11 = await txt11.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -536,7 +536,7 @@ async function scrapeProduct4(url){
   const rawTxt3 = await txt3.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -561,7 +561,7 @@ async function scrapeProduct4(url){
   const rawTxt7 = await txt7.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}')`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -586,7 +586,7 @@ async function scrapeProduct4(url){
   const rawTxt11 = await txt11.jsonValue();
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
+    `INSERT IGNORE INTO Events (name, time, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}')`,
     (err, result) => {
       if(err)
       console.log(err);
