@@ -77,6 +77,7 @@ app.use(
 app.post("/api/register", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
+  const role = req.body.role;
 
   bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) {
@@ -84,8 +85,8 @@ app.post("/api/register", (req, res) => {
     }
 
     db.query(
-      "INSERT INTO User (username, password) VALUES (?,?)",
-      [username, hash],
+      "INSERT INTO User (username, password, role) VALUES (?,?,?)",
+      [username, hash, role],
       (err, result) => {
         console.log(err);
       }
@@ -149,6 +150,20 @@ app.get("/api/get/rso", (req, res) => {
     //console.log(result);
     return res.json(result);
   });
+});
+
+app.post("/api/event", (req, res) => {
+  const eName = req.body.eName;
+  const time = req.body.time;
+  const description = req.body.description;
+  const privacy = req.body.privacy;
+
+  db.query(
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${eName}','${time}','${description}','${privacy}')`,
+    (err, result) => {
+      console.log(err);
+    }
+  );
 });
 
 app.post("/api/post/rso", (req, res) => {
