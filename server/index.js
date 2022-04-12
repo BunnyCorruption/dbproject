@@ -214,7 +214,6 @@ async function scrapeProduct(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -239,7 +238,6 @@ async function scrapeProduct(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -264,7 +262,6 @@ async function scrapeProduct(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(rawTxt);
     }
   );
 
@@ -298,7 +295,6 @@ async function scrapeProduct1(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -323,7 +319,6 @@ async function scrapeProduct1(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     } 
   );
 
@@ -348,7 +343,6 @@ async function scrapeProduct1(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -386,7 +380,6 @@ async function scrapeProduct2(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -411,7 +404,6 @@ async function scrapeProduct2(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -462,7 +454,6 @@ async function scrapeProduct3(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -487,7 +478,6 @@ async function scrapeProduct3(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -512,7 +502,6 @@ async function scrapeProduct3(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -547,7 +536,6 @@ async function scrapeProduct4(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -572,7 +560,6 @@ async function scrapeProduct4(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(result);
     }
   );
 
@@ -597,7 +584,6 @@ async function scrapeProduct4(url){
     (err, result) => {
       if(err)
       console.log(err);
-      console.log(rawTxt8);
     }
   );
 
