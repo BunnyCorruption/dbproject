@@ -106,6 +106,8 @@ app.get("/api/logout", async (req, res) => {
   if (req.session.user) {
     delete req.session.user;
     res.json({result: 'SUCCESS'});
+  } else {
+    res.json({result: 'No one is logged in'})
   }
 })
 
