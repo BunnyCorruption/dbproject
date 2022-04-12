@@ -36,7 +36,8 @@ export default function Login() {
               if (role === "Student" || role === "Admin" || role === "Super Admin")
                 nav("/login");
           }
-  });
+        });
+    }
 
   const userAuthent = () => {
       Axios.get("http://localhost:3001/api/isUserAuth", {
@@ -46,13 +47,15 @@ export default function Login() {
             console.log(response);
         })
   }
-  useEffect(() => {
-      Axios.get("http://localhost:3001/api/login").then((response) => {
-          if (response.data.loggedIn === true) {
-              setRole(response.data.user[0].role);
-          }
-      });
-  }, []);
+
+// Sets role? WIP
+//   useEffect(() => {
+//       Axios.get("http://localhost:3001/api/login").then((response) => {
+//           if (response.data.loggedIn === true) {
+//               setRole(response.data.user[0].role);
+//           }
+//       });
+//   }, []);
 
 
 //   const submitReview = () => {
@@ -113,5 +116,4 @@ export default function Login() {
         </div>
     </>
   );
-}
 }
