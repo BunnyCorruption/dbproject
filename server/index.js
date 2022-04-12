@@ -161,9 +161,11 @@ app.post("/api/event", (req, res) => {
   db.query(
     `INSERT INTO Events (name, time, description, privacy) VALUES ('${eName}','${time}','${description}','${privacy}')`,
     (err, result) => {
+      if(err)
       console.log(err);
     }
   );
+  return res;
 });
 
 app.post("/api/post/rso", (req, res) => {
@@ -172,6 +174,7 @@ app.post("/api/post/rso", (req, res) => {
   const sqlInsert = `INSERT INTO RSO (rName) VALUES ('${schoolName}')`;
   db.query(sqlInsert, (err, result) => {});
 });
+
 app.listen(3001, () => {
   console.log("runnin on port 3001");
 });
