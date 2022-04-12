@@ -160,6 +160,13 @@ app.post("/api/event", (req, res) => {
   const description = req.body.description;
   const privacy = req.body.privacy;
 
+  app.get("/api/get/event", (req, res) => {
+    db.query("SELECT * FROM Events", (err, result) => {
+      //console.log(result);
+      return res.json(result);
+    });
+  });  
+
   db.query(
     `INSERT INTO Events (name, time, description, privacy) VALUES ('${eName}','${time}','${description}','${privacy}')`,
     (err, result) => {

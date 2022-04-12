@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal, Button, Navbar, Container, Form, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
@@ -11,7 +11,8 @@ export default function Home() {
   const [time, setTime] = React.useState("");
   const [privacy, setPrivacy] = React.useState("");
   const [description, setDescription] = React.useState("");
-  
+  const [events, setEvents] = React.useState([]);
+
   let navigate = useNavigate();
   const routeChange = () => {
     let path = `/rso`;
@@ -19,7 +20,7 @@ export default function Home() {
   };
 
   const createEvent = () => {
-    
+
     Axios.post("http://localhost:3001/api/event", {
       eName: eName,
       time: time,
@@ -27,11 +28,21 @@ export default function Home() {
       privacy: privacy,
     }).then((response) => {
       console.log(response);
-    }, (err)=>{
+    }, (err) => {
       console.log(err);
     });
     handleClose();
   };
+
+  useEffect(() => {
+    Axios.get("http://localhost:3001/api/get/event").then((res) => {
+      //console.log(res.data);
+      const event = res.data;
+      setEvents(event);
+      console.log(events);
+    });
+
+  });
 
   return (
     <>
@@ -67,9 +78,9 @@ export default function Home() {
       <div className="bg">
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-          <h2>Create an Event</h2>
-                
-            </Modal.Header>
+            <h2>Create an Event</h2>
+
+          </Modal.Header>
           <Modal.Body>
             <Card>
               <Card.Body>
@@ -107,7 +118,7 @@ export default function Home() {
                     }}
                   />
                   <Form.Group className="mt-3" id="privacy">
-                  <Form.Label>Privacy</Form.Label>
+                    <Form.Label>Privacy</Form.Label>
                     <Form.Select
                       aria-label="Default select example"
                       name="privacy"
@@ -129,7 +140,43 @@ export default function Home() {
             </Card>
           </Modal.Body>
         </Modal>
-        {/* build page here por'favor */}
+        <Container
+          className="d-flex align-items-center justify-content-center"
+          style={{ minHeight: "100vh" }}
+        >
+          <Card
+            style={{ minWidth: 900, height: "800px", maxHeight: 600 }}
+            className="overflow-auto m-4"
+          >
+            <Card.Body>
+              <h2 className="text-center">
+                Events
+              </h2>
+              <ul className="list-group">
+                {events
+                  .map((listitem) => (
+                    <li
+                      className="list-group-item list-group-item-primary p-2"
+                      key={listitem.eid}
+                    >
+                      <div className="d-flex justify-content-between m-2">
+                        <div><h2>{listitem.name}</h2>
+                          <div className="my-1">
+                            {listitem.time}
+                            <div>{listitem.place}</div>
+                            <div>{listitem.description}</div>
+                          </div>
+                          <div>Privacy: {listitem.privacy}
+                          </div>
+                          </div>
+                        <Button style={{ maxHeight: 50 }}>Join</Button>
+                      </div>
+                    </li>
+                  ))}
+              </ul>
+            </Card.Body>
+          </Card>
+        </Container>
       </div>
     </>
   );
