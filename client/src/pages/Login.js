@@ -117,7 +117,7 @@ export default function Login() {
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id="username">
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="text" name="username" 
+                            <Form.Control type="email" name="username" 
                                 onChange={(e)=> {
                                 setUsername(e.target.value);}} required /> 
                         </Form.Group>
