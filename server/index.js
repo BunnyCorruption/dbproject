@@ -102,6 +102,15 @@ app.get("/api/isUserAuth", verifyJWT, (req, res) => {
   // res.json(db.filter(post => post.username === req.user.name))
 });
 
+app.get("/api/logout", async (req, res) => {
+  if (req.session.user) {
+    delete req.session.user;
+    res.json({result: 'SUCCESS'});
+  } else {
+    res.json({result: 'No one is logged in'})
+  }
+})
+
 app.get("/api/login", (req, res) => {
   if (req.session.user) {
     res.send({ loggedIn: true, user: req.session.user });
@@ -113,8 +122,9 @@ app.get("/api/login", (req, res) => {
 app.post("/api/login", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
+  const role = req.body.role;
 
-  db.query("SELECT * FROM User WHERE username = ?", username, (err, result) => {
+  db.query("SELECT * FROM User WHERE username = ?", [username], (err, result) => {
     if (err) {
       res.send({ err: err });
     }

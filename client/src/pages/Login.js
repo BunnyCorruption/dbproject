@@ -9,15 +9,36 @@ import "../pretty.css";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
   const [loginStatus, setLoginStatus] = useState(false);
-  const nav = useNavigate();
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `/home`;
+    navigate(path);
+  };
 
   Axios.defaults.withCredentials = true;
 
-  const login = () => {
-      Axios.post('http://localhost:3001/api/login', {
-          username: username, 
-          password: password,
+//   const login = () => {
+//       Axios.post('http://localhost:3001/api/login', {
+//           username: username, 
+//           password: password,
+//         }).then((response) => {
+
+//             if (!response.data.auth) {
+//                 setLoginStatus(false);
+                
+//             } else {
+//                 localStorage.setItem("token", response.data.token)
+//                 setLoginStatus(true);
+//             }
+//         });
+//     }
+
+    async function log() {
+        Axios.post('http://localhost:3001/api/login', {
+            username: username, 
+            password: password,
         }).then((response) => {
 
             if (!response.data.auth) {
@@ -26,9 +47,19 @@ export default function Login() {
             } else {
                 localStorage.setItem("token", response.data.token)
                 setLoginStatus(true);
+                navigate('/home');
             }
         });
-  };
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+
+        try {
+            log();
+        } catch { setLoginStatus(false) }
+
+    }
 
   const userAuthent = () => {
       Axios.get("http://localhost:3001/api/isUserAuth", {
@@ -38,15 +69,15 @@ export default function Login() {
             console.log(response);
         })
   }
-  useEffect(() => {
-      Axios.get("http://localhost:3001/api/login").then((response) => {
-        //   if (response.data.loggedIn === true) {
-        //       console.log(response);
-        //   }
-        console.log(response);
-        // nav("/main");
-      });
-  }, []);
+
+// Sets role? WIP
+//   useEffect(() => {
+//       Axios.get("http://localhost:3001/api/login").then((response) => {
+//           if (response.data.loggedIn === true) {
+//               setRole(response.data.user[0].role);
+//           }
+//       });
+//   }, []);
 
 
 //   const submitReview = () => {
@@ -83,7 +114,7 @@ export default function Login() {
             <Card>
                 <Card.Body>
                     <h2 className="text-center mb-4">Log In</h2>
-                    <Form onSubmit={login}>
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group id="username">
                             <Form.Label>Username</Form.Label>
                             <Form.Control type="text" name="username" 
@@ -108,4 +139,3 @@ export default function Login() {
     </>
   );
 }
-
