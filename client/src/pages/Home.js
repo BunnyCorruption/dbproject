@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Modal, Button, Navbar, Container, Form, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import { Draggable, Map, Marker } from "pigeon-maps";
 
 export default function Home() {
   const [show, setShow] = React.useState(false);
@@ -9,40 +10,42 @@ export default function Home() {
   const handleClose = () => setShow(false);
   const [eName, seteName] = React.useState("");
   const [time, setTime] = React.useState("");
-  const [privacy, setPrivacy] = React.useState("");
+  const [privacy, setPrivacy] = React.useState("Everyone");
   const [description, setDescription] = React.useState("");
   const [events, setEvents] = React.useState([]);
+  const [anchor, setAnchor] = React.useState([28.605064831835453, -81.19917195288905]);
 
   let navigate = useNavigate();
-  const routeChange = () => {
+  function routeChange() {
     let path = `/rso`;
     navigate(path);
   };
 
   async function logout() {
-    Axios.get('http://localhost:3001/api/logout').then((response) => {
+    Axios.get("http://localhost:3001/api/logout").then((response) => {
+      if (!response.data.auth) {
+        localStorage.setItem("token", "");
+        navigate("/");
+      }
+    });
+  }
 
-          if (!response.data.auth) {
-              localStorage.setItem("token", "");
-              navigate('/');
-              
-          } 
-      });
-  };
-
-  const createEvent = () => {
-
+  async function createEvent() {
     Axios.post("http://localhost:3001/api/event", {
       eName: eName,
       time: time,
       description: description,
       privacy: privacy,
-    }).then((response) => {
-      console.log(response);
-    }, (err) => {
-      console.log(err);
-    });
-    handleClose();
+      place: anchor
+    }).then(
+      (response) => {
+        console.log(response);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+    setAnchor([28.605064831835453, -81.19917195288905]);
   };
 
   useEffect(() => {
@@ -50,9 +53,8 @@ export default function Home() {
       //console.log(res.data);
       const event = res.data;
       setEvents(event);
-      console.log(events);
+      //console.log(events);
     });
-
   });
 
   return (
@@ -80,7 +82,11 @@ export default function Home() {
             >
               Join an RSO
             </Button>
-            <Button type="button" className="pull-right btn btn-warning" onClick={logout}>
+            <Button
+              type="button"
+              className="pull-right btn btn-warning"
+              onClick={logout}
+            >
               Logout
             </Button>
           </div>
@@ -90,12 +96,11 @@ export default function Home() {
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <h2>Create an Event</h2>
-
           </Modal.Header>
           <Modal.Body>
             <Card>
               <Card.Body>
-                <Form>
+                <Form onSubmit={createEvent}>
                   <Form.Group id="eName">
                     <Form.Label>Event Name</Form.Label>
                     <Form.Control
@@ -107,6 +112,23 @@ export default function Home() {
                       required
                     />
                   </Form.Group>
+                  <Form.Group className="mt-2" id="location">
+                    <Form.Label>Location</Form.Label>
+                    <Map
+                    onClick={(e) => {
+                      setAnchor(e.target.value);
+                    }}
+                      name="location"
+                      height={200}
+                      defaultCenter={[28.605064831835453, -81.19917195288905]}
+                      defaultZoom={13}
+                    >
+                      <Draggable anchor={anchor} onDragEnd={setAnchor}>
+                      <Marker width={40} anchor={anchor} />
+                      </Draggable>
+                    </Map>
+                  </Form.Group>
+
                   <Form.Group className="mt-2" id="time">
                     <Form.Label>Time</Form.Label>
                     <Form.Control
@@ -143,7 +165,7 @@ export default function Home() {
                       <option value="Admins Only">Private</option>
                     </Form.Select>
                   </Form.Group>
-                  <Button className="w-100 mt-4" onClick={createEvent}>
+                  <Button className="w-100 mt-4" type="submit">
                     Create Event
                   </Button>
                 </Form>
@@ -151,40 +173,33 @@ export default function Home() {
             </Card>
           </Modal.Body>
         </Modal>
-        <h1 className="text-center pt-2">
-                Events
-              </h1>
-        <Container
-          className="d-flex align-items-center justify-content-center"
-          
-        >
-          
+        <h1 className="text-white text-center pt-2">Daily Events</h1>
+        <Container className="d-flex align-items-center justify-content-center">
           <Card
-            style={{ minWidth: 900, height: "550px", maxHeight: 600 }}
-            className="overflow-auto m-4"
+            style={{ minWidth: 900, maxHeight: 800 }}
+            className="overflow-auto m-4 h-auto"
           >
             <Card.Body>
               <ul className="list-group">
-                {events
-                  .map((listitem) => (
-                    <li
-                      className="list-group-item list-group-item-primary p-2"
-                      key={listitem.eid}
-                    >
-                      <div className="d-flex justify-content-between m-2">
-                        <div><h2>{listitem.name}</h2>
-                          <div className="my-1">
-                            {listitem.time}
-                            <div>{listitem.place}</div>
-                            <div>{listitem.description}</div>
-                          </div>
-                          <div>Privacy: {listitem.privacy}
-                          </div>
-                          </div>
-                        <Button style={{ maxHeight: 50 }}>Join</Button>
+                {events.map((listitem) => (
+                  <li
+                    className="list-group-item list-group-item-primary p-2"
+                    key={listitem.eid}
+                  >
+                    <div className="d-flex justify-content-between m-2">
+                      <div>
+                        <h2>{listitem.name}</h2>
+                        <div className="my-1">
+                          {listitem.time}
+                          <div>{listitem.place}</div>
+                          <div>{listitem.description}</div>
+                        </div>
+                        <div>Privacy: {listitem.privacy}</div>
                       </div>
-                    </li>
-                  ))}
+                      <Button style={{ maxHeight: 50 }}>Join</Button>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </Card.Body>
           </Card>

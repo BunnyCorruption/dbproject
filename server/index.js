@@ -158,14 +158,14 @@ app.get("/api/get", (req, res) => {
 });
 
 app.get("/api/get/rso", (req, res) => {
-  db.query("SELECT * FROM RSO", (err, result) => {
+  db.query("SELECT * FROM RSO;", (err, result) => {
     //console.log(result);
     return res.json(result);
   });
 });
 
 app.get("/api/get/event", (req, res) => {
-  db.query("SELECT * FROM Events", (err, result) => {
+  db.query("SELECT * FROM Events;", (err, result) => {
     //console.log(result);
     return res.json(result);
   });
@@ -182,7 +182,7 @@ app.post("/api/event", (req, res) => {
     
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${eName}','${time}','${description}','${privacy}')`,
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${eName}','${time}','${description}','${privacy}');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -194,7 +194,7 @@ app.post("/api/event", (req, res) => {
 app.post("/api/post/rso", (req, res) => {
   const newrso = req.body.newrso;
   console.log(newrso);
-  const sqlInsert = `INSERT INTO RSO (name, count) VALUES ('${newrso}', 1)`;
+  const sqlInsert = `INSERT INTO RSO (name, count) VALUES ('${newrso}', 1);`;
   db.query(sqlInsert, (err, result) => {
     if(err)
     console.log(err);
@@ -224,7 +224,7 @@ async function scrapeProduct(url){
   const rawTxt3 = await txt3.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -248,7 +248,7 @@ async function scrapeProduct(url){
   const rawTxt7 = await txt7.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -272,7 +272,7 @@ async function scrapeProduct(url){
   const rawTxt11 = await txt11.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -305,7 +305,7 @@ async function scrapeProduct1(url){
   const rawTxt3 = await txt3.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -329,7 +329,7 @@ async function scrapeProduct1(url){
   const rawTxt7 = await txt7.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -353,7 +353,7 @@ async function scrapeProduct1(url){
   const rawTxt11 = await txt11.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -390,7 +390,7 @@ async function scrapeProduct2(url){
   const rawTxt3 = await txt3.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -414,7 +414,7 @@ async function scrapeProduct2(url){
   const rawTxt7 = await txt7.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -464,7 +464,7 @@ async function scrapeProduct3(url){
   const rawTxt3 = await txt3.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -488,7 +488,7 @@ async function scrapeProduct3(url){
   const rawTxt7 = await txt7.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -512,7 +512,7 @@ async function scrapeProduct3(url){
   const rawTxt11 = await txt11.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -546,7 +546,7 @@ async function scrapeProduct4(url){
   const rawTxt3 = await txt3.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt}','${rawTxt1}','${rawTxt2}','${rawTxt3}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -570,7 +570,7 @@ async function scrapeProduct4(url){
   const rawTxt7 = await txt7.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt4}','${rawTxt5}','${rawTxt6}','${rawTxt7}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -594,7 +594,7 @@ async function scrapeProduct4(url){
   const rawTxt11 = await txt11.jsonValue();
 
   db.query(
-    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}','Everyone')`,
+    `INSERT IGNORE INTO Events (name, time, place, description, privacy) VALUES ('${rawTxt8}','${rawTxt9}','${rawTxt10}','${rawTxt11}','Everyone');`,
     (err, result) => {
       if(err)
       console.log(err);
@@ -607,9 +607,9 @@ async function scrapeProduct4(url){
 }
 
 scrapeProduct('https://events.ucf.edu');
-//scrapeProduct1('https://events.ucf.edu');
+scrapeProduct1('https://events.ucf.edu');
 scrapeProduct2('https://events.ucf.edu');
-//scrapeProduct3('https://events.ucf.edu');
+scrapeProduct3('https://events.ucf.edu');
 scrapeProduct4('https://events.ucf.edu');
 
 app.listen(3001, () => {
