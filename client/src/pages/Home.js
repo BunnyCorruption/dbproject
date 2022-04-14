@@ -13,6 +13,8 @@ export default function Home() {
   const [privacy, setPrivacy] = React.useState("Everyone");
   const [description, setDescription] = React.useState("");
   const [newComment, setnewComment] = React.useState("");
+  const [cuser, setCuser] = React.useState("");
+  const [commenteid, setCommenteid] = React.useState(0);
   const [events, setEvents] = React.useState([]);
   const [comments, setComments] = React.useState([]);
   const [anchor, setAnchor] = React.useState([
@@ -36,7 +38,7 @@ export default function Home() {
     });
   }
 
-  async function createEvent() {
+  function createEvent() {
     Axios.post("http://localhost:3001/api/event", {
       eName: eName,
       time: time,
@@ -54,29 +56,76 @@ export default function Home() {
     setAnchor([28.605064831835453, -81.19917195288905]);
   }
 
+  async function postComment() {
+    try {
+      let res = Axios.post("http://localhost:3001/api/comment", {
+        text: newComment,
+        cuser: cuser,
+        eid: commenteid,
+      }).then(
+        (response) => {
+          console.log(response);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+      reRender();
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function reRender() {
+    try {
+      let res = Axios.get("http://localhost:3001/api/get/event").then(
+        (res) => {
+          //console.log(res.data);
+          const event = res.data;
+          setEvents(event);
+          //console.log(events);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+
+      Axios.get("http://localhost:3001/api/get/comments").then(
+        (res) => {
+          //console.log(res.data);
+          const comments = res.data;
+          setComments(comments);
+          //console.log(events);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+
+      Axios.get("http://localhost:3001/api/login").then(
+        (response) => {
+          if (response.data.loggedIn === true) {
+            setRole(response.data.user[0].role);
+            setCuser(response.data.user[0].username);
+
+            if (role === "Admin" || role === "Super Admin") setAdmin(false);
+            console.log(isAdmin);
+          }
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/get/event").then((res) => {
-      //console.log(res.data);
-      const event = res.data;
-      setEvents(event);
-      //console.log(events);
-    });
-
-    Axios.get("http://localhost:3001/api/login").then((response) => {
-      if (response.data.loggedIn === true) {
-        setRole(response.data.user[0].role);
-
-        if (role === "Admin" || role === "Super Admin") setAdmin(false);
-      }
-    });
-
-    Axios.get("http://localhost:3001/api/get/comments").then((res) => {
-      //console.log(res.data);
-      const comments = res.data;
-      setComments(comments);
-      //console.log(events);
-    }, []);
-  });
+    reRender();
+  }, []);
 
   return (
     <>
@@ -206,8 +255,7 @@ export default function Home() {
             className="overflow-auto m-4 h-auto"
           >
             <Card.Body>
-              <ul className="list-group" style={{ minWidth: 900 }}
-            >
+              <ul className="list-group" style={{ minWidth: 900 }}>
                 {events.map((listitem) => (
                   <li
                     className="list-group-item list-group-item-primary p-2"
@@ -221,29 +269,27 @@ export default function Home() {
                           <div>{listitem.place}</div>
                           <div>{listitem.description}</div>
                         </div>
-                        <div className="pb-3">
-                          Privacy: {listitem.privacy}
-                        </div>
+                        <div className="pb-3">Privacy: {listitem.privacy}</div>
                         <ul className="list-comments border-top border-dark p-2">
-                        {comments
-                          .filter((key) => key.eid === listitem.eid)
-                          .map((comms) => (
-                            <li
-                              className="list-group-item list-group-item-primary p-2 rounded bg-transparent bg-gradient"
-                              key={comms.cid}
-                            >
-                              <div className="d-flex justify-content-between m-2 ">
-                                <div>
-                                  {comms.cuser}
-                                  <br />
-                                  {comms.text}
+                          {comments
+                            .filter((key) => key.eid === listitem.eid)
+                            .map((comms) => (
+                              <li
+                                className="list-group-item list-group-item-primary p-2 rounded bg-transparent bg-gradient"
+                                key={comms.cid}
+                              >
+                                <div className="d-flex justify-content-between m-2 ">
+                                  <div>
+                                    {comms.cuser}
+                                    <br />
+                                    {comms.text}
+                                  </div>
+                                  <div>{comms.rating}</div>
                                 </div>
-                                <div>{comms.rating}</div>
-                              </div>
-                            </li>
-                          ))}
+                              </li>
+                            ))}
                         </ul>
-                        <Form className="center mt-4">
+                        <Form className="center mt-4" onSubmit={postComment}>
                           <Form.Group id="newComment">
                             <Form.Control
                               type="text"
@@ -251,10 +297,15 @@ export default function Home() {
                               style={{ minWidth: 900 }}
                               onChange={(e) => {
                                 setnewComment(e.target.value);
+                                setCommenteid(listitem.eid);
                               }}
                             />
                           </Form.Group>
-                          <Button style={{ maxHeight: 50 }} className="mt-4">
+                          <Button
+                            style={{ maxHeight: 50 }}
+                            className="mt-4"
+                            type="submit"
+                          >
                             Comment
                           </Button>
                         </Form>

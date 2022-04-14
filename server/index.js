@@ -157,21 +157,21 @@ app.get("/api/get", (req, res) => {
 });
 
 app.get("/api/get/rso", (req, res) => {
-  db.query("SELECT * FROM RSO;", (err, result) => {
+  db.query("SELECT * FROM RSO", (err, result) => {
     //console.log(result);
     return res.json(result);
   });
 });
 
 app.get("/api/get/event", (req, res) => {
-  db.query("SELECT * FROM Events;", (err, result) => {
+  db.query("SELECT * FROM Events", (err, result) => {
     //console.log(result);
     return res.json(result);
   });
 });  
 
 app.get("/api/get/comments", (req, res) => {
-  db.query("SELECT * FROM Comments;", (err, result) => {
+  db.query("SELECT * FROM Comments", (err, result) => {
     //console.log(result);
     return res.json(result);
   });
@@ -184,22 +184,36 @@ app.post("/api/event", (req, res) => {
   const description = req.body.description;
   const privacy = req.body.privacy;
 
-    
-
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${eName}','${time}','${description}','${privacy}');`,
+    `INSERT INTO Events (name, time, description, privacy) VALUES ('${eName}','${time}','${description}','${privacy}')`,
     (err, result) => {
       if(err)
       console.log(err);
     }
   );
-  return res;
+  
 });
+
+app.post("/api/comment", (req, res) => {
+  const text = req.body.text;
+  const cuser = req.body.cuser;
+  const eid = req.body.eid;
+
+  db.query(
+    `INSERT INTO Comments (text, cuser, eid) VALUES ('${text}','${cuser}','${eid}')`,
+    (err, result) => {
+      if(err)
+      console.log(err);
+    }
+  );
+  
+});
+
 
 app.post("/api/post/rso", (req, res) => {
   const newrso = req.body.newrso;
   console.log(newrso);
-  const sqlInsert = `INSERT INTO RSO (name, count) VALUES ('${newrso}', 1);`;
+  const sqlInsert = `INSERT INTO RSO (name, count) VALUES ('${newrso}', 1)`;
   db.query(sqlInsert, (err, result) => {
     if(err)
     console.log(err);
