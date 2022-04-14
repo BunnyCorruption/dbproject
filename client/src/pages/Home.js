@@ -21,7 +21,7 @@ export default function Home() {
     28.605064831835453, -81.19917195288905,
   ]);
   const [role, setRole] = React.useState("Everyone");
-  const [isAdmin, setAdmin] = React.useState(true);
+  const [isAdmin, setAdmin] = React.useState(false);
 
   let navigate = useNavigate();
   function routeChange() {
@@ -54,11 +54,13 @@ export default function Home() {
       }
     );
     setAnchor([28.605064831835453, -81.19917195288905]);
+    reRender();
+    handleClose();
   }
 
-  async function postComment() {
-    try {
-      let res = Axios.post("http://localhost:3001/api/comment", {
+function postComment() {
+    
+      Axios.post("http://localhost:3001/api/comment", {
         text: newComment,
         cuser: cuser,
         eid: commenteid,
@@ -70,16 +72,13 @@ export default function Home() {
           console.log(err);
         }
       );
+ 
       reRender();
-      return res.data;
-    } catch (err) {
-      console.error(err);
-    }
   }
 
-  async function reRender() {
-    try {
-      let res = Axios.get("http://localhost:3001/api/get/event").then(
+   function reRender() {
+    
+  Axios.get("http://localhost:3001/api/get/event").then(
         (res) => {
           //console.log(res.data);
           const event = res.data;
@@ -109,19 +108,16 @@ export default function Home() {
             setRole(response.data.user[0].role);
             setCuser(response.data.user[0].username);
 
-            if (role === "Admin" || role === "Super Admin") setAdmin(false);
-            console.log(isAdmin);
+            if (role === "Admin" || role === "Super Admin") setAdmin(true);
+            //console.log(isAdmin);
           }
         },
         (err) => {
           console.log(err);
         }
       );
-      return res.data;
-    } catch (err) {
-      console.error(err);
-    }
-  }
+      
+   }
 
   useEffect(() => {
     reRender();
@@ -175,7 +171,7 @@ export default function Home() {
           <Modal.Body>
             <Card>
               <Card.Body>
-                <Form onSubmit={createEvent}>
+                <Form >
                   <Form.Group id="eName">
                     <Form.Label>Event Name</Form.Label>
                     <Form.Control
@@ -240,7 +236,7 @@ export default function Home() {
                       <option value="Admins Only">Private</option>
                     </Form.Select>
                   </Form.Group>
-                  <Button className="w-100 mt-4" type="submit">
+                  <Button className="w-100 mt-4" onClick={createEvent}>
                     Create Event
                   </Button>
                 </Form>
@@ -304,7 +300,7 @@ export default function Home() {
                           <Button
                             style={{ maxHeight: 50 }}
                             className="mt-4"
-                            type="submit"
+                            onClick={postComment}
                           >
                             Comment
                           </Button>

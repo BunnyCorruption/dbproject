@@ -1,27 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Button, Navbar, Container, Form } from "react-bootstrap";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
-export default class RSO extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      schools: [],
-      suggests: [],
-      newrso: "",
-    };
+export default function RSO() {
+  
+  const [schools, setSchools] = React.useState([]);
+  const [newRSO, setRSO] = React.useState("");
+  
+  function createRSO() {
+    Axios.post("http://localhost:3001/api/post/RSO", {
+      newrso: newRSO,
+    }).then(
+      (response) => {
+        console.log(response);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+    reRender();
+
   }
 
-  componentDidMount() {
+  function reRender() {
     Axios.get("http://localhost:3001/api/get/rso/").then((res) => {
       //console.log(res.data);
       const schools = res.data;
-      this.setState({ schools });
+      setSchools(schools);
     });
   }
 
-  render() {
+  useEffect(() => {
+    reRender();
+  }, []);
+
     return (
       <>
         <Navbar bg="dark" variant="dark">
@@ -54,15 +67,15 @@ export default class RSO extends React.Component {
             style={{ minHeight: "100vh" }}
           >
             <Card
-              style={{ minWidth: 400, height: "800px" }}
-              className="overflow-auto"
+              style={{ minWidth: 400, minHeight: 400, maxHeight: "800px" }}
+              className="overflow-auto border rounded-3 border-warning"
             >
               <Card.Body>
                 <h2 className="text-center mb-4">
                   Registered Student Organizations
                 </h2>
                 <ul className="list-group">
-                  {this.state.schools
+                  {schools
                     .filter((key) => key.count > 4)
                     .map((listitem) => (
                       <li
@@ -84,15 +97,15 @@ export default class RSO extends React.Component {
               </Card.Body>
             </Card>
             <Card
-              style={{ minWidth: 400, height: "800px" }}
-              className="m-4 overflow-auto"
+              style={{ minWidth: 400, maxHeight: "800px" }}
+              className="m-4 overflow-auto border rounded-3 border-warning"
             >
               <Card.Body>
                 <h2 className="text-center mb-4">
                   RSOs that need more Members
                 </h2>
                 <ul className="list-group">
-                  {this.state.schools
+                  {schools
                     .filter((key) => key.count < 5)
                     .map((listitem) => (
                       <li
@@ -112,71 +125,29 @@ export default class RSO extends React.Component {
                     ))}
                 </ul>
               </Card.Body>
-            </Card>
-            <Card style={{ midWidth: 400 }}>
               <Card.Body>
                 <Form>
                   <Form.Group id="newrso">
-                    <Form.Label>RSO</Form.Label>
+                    <Form.Label>Have an idea for a new RSO?</Form.Label>
                     <Form.Control
                       type="text"
                       name="newrso"
                       onChange={(e) => {
-                        this.setState({ newrso: e.target.value });
+                        setRSO(e.target.value);  
                       }}
                       required
                     />
                   </Form.Group>
-                  {/*
-                  
 
-Axios.post("http://localhost:3001/api/post/rso/", { newrso: this.state.newrso }).then(
-      (res) => {
-        //console.log(res)
-      },
-      (err) => {
-        //console.log(err)
-      }
-    )
-
-                  
-                  <Form.Group>
-                  <Form.Label>Description</Form.Label>
-                  <textarea
-                    className="form-control"
-                    id="description"
-                    rows={3}
-                    placeholder=""
-                    onSubmit={(e) => {
-                      this.description= e.target.value;
-                    }}
-                  />
-                  </Form.Group>
-                  <Form.Group className="mt-3" id="privacy">
-                  <Form.Label>Privacy</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
-                      name="privacy"
-                      onSubmit={(e) => {
-                        this.privacy =e.target.value;
-                        console.log(this.privacy);
-                      }}
-                      required
-                    >
-                      <option value="Everyone">Everyone</option>
-                      <option value="RSO">RSO</option>
-                      <option value="Admins Only">Private</option>
-                    </Form.Select>
-                  </Form.Group>*/}
-                  <Button className="w-100 mt-4" type="submit">
+                  <Button className="w-100 mt-4" onClick={createRSO}>
                     Suggest RSO
                   </Button>
                 </Form>
               </Card.Body>
             </Card>
-          </Container>
+           </Container>
         </div>
       </>
     );
   }
-}
+
