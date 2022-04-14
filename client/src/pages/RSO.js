@@ -4,14 +4,14 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 
 export default class RSO extends React.Component {
-  constructor(props){
-  super(props);
-  this.state = {
-    schools: [],
-    suggests: [],
-    newrso: ''
-  };
-}
+  constructor(props) {
+    super(props);
+    this.state = {
+      schools: [],
+      suggests: [],
+      newrso: "",
+    };
+  }
 
   componentDidMount() {
     Axios.get("http://localhost:3001/api/get/rso/").then((res) => {
@@ -20,8 +20,6 @@ export default class RSO extends React.Component {
       this.setState({ schools });
     });
   }
-
-  
 
   render() {
     return (
@@ -56,7 +54,7 @@ export default class RSO extends React.Component {
             style={{ minHeight: "100vh" }}
           >
             <Card
-              style={{  minWidth: 400, height: "800px" }}
+              style={{ minWidth: 400, height: "800px" }}
               className="overflow-auto"
             >
               <Card.Body>
@@ -72,10 +70,12 @@ export default class RSO extends React.Component {
                         key={listitem.rsoid}
                       >
                         <div className="d-flex justify-content-between">
-                          <div>{listitem.name}
-                          <div className="my-1">
-                            Student Count: {listitem.count}
-                          </div></div>
+                          <div>
+                            {listitem.name}
+                            <div className="my-1">
+                              Student Count: {listitem.count}
+                            </div>
+                          </div>
                           <Button>Join</Button>
                         </div>
                       </li>
@@ -84,11 +84,13 @@ export default class RSO extends React.Component {
               </Card.Body>
             </Card>
             <Card
-              style={{  minWidth:400, height: "800px" }}
+              style={{ minWidth: 400, height: "800px" }}
               className="m-4 overflow-auto"
             >
               <Card.Body>
-                <h2 className="text-center mb-4">RSOs that need more Members</h2>
+                <h2 className="text-center mb-4">
+                  RSOs that need more Members
+                </h2>
                 <ul className="list-group">
                   {this.state.schools
                     .filter((key) => key.count < 5)
@@ -101,8 +103,8 @@ export default class RSO extends React.Component {
                           <div>
                             {listitem.name}
                             <div className="my-1">
-                            Student Count: {listitem.count}
-                          </div>
+                              Student Count: {listitem.count}
+                            </div>
                           </div>
                           <Button>Suggest</Button>
                         </div>
@@ -111,7 +113,7 @@ export default class RSO extends React.Component {
                 </ul>
               </Card.Body>
             </Card>
-            <Card style={{midWidth: 400}}>
+            <Card style={{ midWidth: 400 }}>
               <Card.Body>
                 <Form>
                   <Form.Group id="newrso">
@@ -119,10 +121,8 @@ export default class RSO extends React.Component {
                     <Form.Control
                       type="text"
                       name="newrso"
-                      
                       onChange={(e) => {
-                        this.setState({newrso:e.target.value});
-                        
+                        this.setState({ newrso: e.target.value });
                       }}
                       required
                     />
@@ -168,7 +168,7 @@ Axios.post("http://localhost:3001/api/post/rso/", { newrso: this.state.newrso })
                       <option value="Admins Only">Private</option>
                     </Form.Select>
                   </Form.Group>*/}
-                  <Button className="w-100 mt-4"  type="submit">
+                  <Button className="w-100 mt-4" type="submit">
                     Suggest RSO
                   </Button>
                 </Form>
