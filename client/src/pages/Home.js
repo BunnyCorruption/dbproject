@@ -53,7 +53,7 @@ export default function Home() {
         console.log(err);
       }
     );
-    setAnchor([28.605064831835453, -81.19917195288905]);
+    setAnchor([28.605064831835453, -81.19917195288905]); //resets anchor to UCF for next event
     reRender();
     handleClose();
   }

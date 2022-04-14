@@ -183,9 +183,10 @@ app.post("/api/event", (req, res) => {
   const time = req.body.time;
   const description = req.body.description;
   const privacy = req.body.privacy;
+  const place = req.body.place;
 
   db.query(
-    `INSERT INTO Events (name, time, description, privacy) VALUES ('${eName}','${time}','${description}','${privacy}')`,
+    `INSERT INTO Events (name, time, description, privacy, place) VALUES ('${eName}','${time}','${description}','${privacy}', '${place}')`,
     (err, result) => {
       if(err)
       console.log(err);
