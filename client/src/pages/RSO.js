@@ -28,7 +28,7 @@ export default class RSO extends React.Component {
       <>
         <Navbar bg="dark" variant="dark">
           <Container>
-            <Navbar.Brand href="#rso">
+            <Navbar.Brand href="/home">
               <img
                 alt=""
                 src="/pngwing.com.png"

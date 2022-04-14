@@ -12,14 +12,20 @@ export default function Home() {
   const [time, setTime] = React.useState("");
   const [privacy, setPrivacy] = React.useState("Everyone");
   const [description, setDescription] = React.useState("");
+  const [newComment, setnewComment] = React.useState("");
   const [events, setEvents] = React.useState([]);
-  const [anchor, setAnchor] = React.useState([28.605064831835453, -81.19917195288905]);
+  const [comments, setComments] = React.useState([]);
+  const [anchor, setAnchor] = React.useState([
+    28.605064831835453, -81.19917195288905,
+  ]);
+  const [role, setRole] = React.useState("Everyone");
+  const [isAdmin, setAdmin] = React.useState(true);
 
   let navigate = useNavigate();
   function routeChange() {
     let path = `/rso`;
     navigate(path);
-  };
+  }
 
   async function logout() {
     Axios.get("http://localhost:3001/api/logout").then((response) => {
@@ -36,7 +42,7 @@ export default function Home() {
       time: time,
       description: description,
       privacy: privacy,
-      place: anchor
+      place: anchor,
     }).then(
       (response) => {
         console.log(response);
@@ -46,7 +52,7 @@ export default function Home() {
       }
     );
     setAnchor([28.605064831835453, -81.19917195288905]);
-  };
+  }
 
   useEffect(() => {
     Axios.get("http://localhost:3001/api/get/event").then((res) => {
@@ -55,13 +61,28 @@ export default function Home() {
       setEvents(event);
       //console.log(events);
     });
+
+    Axios.get("http://localhost:3001/api/login").then((response) => {
+      if (response.data.loggedIn === true) {
+        setRole(response.data.user[0].role);
+
+        if (role === "Admin" || role === "Super Admin") setAdmin(false);
+      }
+    });
+
+    Axios.get("http://localhost:3001/api/get/comments").then((res) => {
+      //console.log(res.data);
+      const comments = res.data;
+      setComments(comments);
+      //console.log(events);
+    }, []);
   });
 
   return (
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#rso">
+          <Navbar.Brand href="/home">
             <img
               alt=""
               src="/pngwing.com.png"
@@ -72,7 +93,12 @@ export default function Home() {
             Calend-R-U-Coming?
           </Navbar.Brand>
           <div>
-            <Button type="button" className="pull-right" onClick={handleOpen}>
+            <Button
+              type="button"
+              className="pull-right"
+              onClick={handleOpen}
+              disabled={isAdmin}
+            >
               Create an Event
             </Button>
             <Button
@@ -115,16 +141,16 @@ export default function Home() {
                   <Form.Group className="mt-2" id="location">
                     <Form.Label>Location</Form.Label>
                     <Map
-                    onClick={(e) => {
-                      setAnchor(e.target.value);
-                    }}
+                      onClick={(e) => {
+                        setAnchor(e.target.value);
+                      }}
                       name="location"
                       height={200}
                       defaultCenter={[28.605064831835453, -81.19917195288905]}
                       defaultZoom={13}
                     >
                       <Draggable anchor={anchor} onDragEnd={setAnchor}>
-                      <Marker width={40} anchor={anchor} />
+                        <Marker width={40} anchor={anchor} />
                       </Draggable>
                     </Map>
                   </Form.Group>
@@ -180,7 +206,8 @@ export default function Home() {
             className="overflow-auto m-4 h-auto"
           >
             <Card.Body>
-              <ul className="list-group">
+              <ul className="list-group" style={{ minWidth: 900 }}
+            >
                 {events.map((listitem) => (
                   <li
                     className="list-group-item list-group-item-primary p-2"
@@ -194,9 +221,48 @@ export default function Home() {
                           <div>{listitem.place}</div>
                           <div>{listitem.description}</div>
                         </div>
-                        <div>Privacy: {listitem.privacy}</div>
+                        <div className="pb-3">
+                          Privacy: {listitem.privacy}
+                        </div>
+                        <ul className="list-comments border-top border-dark p-2">
+                        {comments
+                          .filter((key) => key.eid === listitem.eid)
+                          .map((comms) => (
+                            <li
+                              className="list-group-item list-group-item-primary p-2 rounded bg-transparent bg-gradient"
+                              key={comms.cid}
+                            >
+                              <div className="d-flex justify-content-between m-2 ">
+                                <div>
+                                  {comms.cuser}
+                                  <br />
+                                  {comms.text}
+                                </div>
+                                <div>{comms.rating}</div>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                        <Form className="center mt-4">
+                          <Form.Group id="newComment">
+                            <Form.Control
+                              type="text"
+                              name="newComment"
+                              style={{ minWidth: 900 }}
+                              onChange={(e) => {
+                                setnewComment(e.target.value);
+                              }}
+                            />
+                          </Form.Group>
+                          <Button style={{ maxHeight: 50 }} className="mt-4">
+                            Comment
+                          </Button>
+                        </Form>
                       </div>
-                      <Button style={{ maxHeight: 50 }}>Join</Button>
+
+                      <Button style={{ maxHeight: 50 }} className="mb-5">
+                        Join
+                      </Button>
                     </div>
                   </li>
                 ))}

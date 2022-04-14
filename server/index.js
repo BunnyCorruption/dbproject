@@ -122,7 +122,6 @@ app.get("/api/login", (req, res) => {
 app.post("/api/login", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  const role = req.body.role;
 
   db.query("SELECT * FROM User WHERE username = ?", [username], (err, result) => {
     if (err) {
@@ -171,6 +170,12 @@ app.get("/api/get/event", (req, res) => {
   });
 });  
 
+app.get("/api/get/comments", (req, res) => {
+  db.query("SELECT * FROM Comments;", (err, result) => {
+    //console.log(result);
+    return res.json(result);
+  });
+});  
 
 
 app.post("/api/event", (req, res) => {
@@ -606,11 +611,11 @@ async function scrapeProduct4(url){
   browser.close();
 }
 
-scrapeProduct('https://events.ucf.edu');
-scrapeProduct1('https://events.ucf.edu');
-scrapeProduct2('https://events.ucf.edu');
-scrapeProduct3('https://events.ucf.edu');
-scrapeProduct4('https://events.ucf.edu');
+//scrapeProduct('https://events.ucf.edu');
+//scrapeProduct1('https://events.ucf.edu');
+//scrapeProduct2('https://events.ucf.edu');
+//scrapeProduct3('https://events.ucf.edu');
+//scrapeProduct4('https://events.ucf.edu');
 
 app.listen(3001, () => {
   console.log("runnin on port 3001");

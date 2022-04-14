@@ -1,22 +1,18 @@
 import React, {useState} from 'react';
-import { Modal, Card, Form, Button, Navbar, Container, Dropdown, DropdownButton } from "react-bootstrap";
-import { Link } from 'react-router-dom';
-import index from "../"
+import { Card, Form, Button, Navbar, Container} from "react-bootstrap";
+import { Link, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import "../pretty.css";
 
 
 
 export default function Signup() {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+  let navigate = useNavigate();
+  
+  
   Axios.defaults.withCredentials = true;
   // Register function
   const register = () => {
@@ -27,6 +23,8 @@ export default function Signup() {
         }).then((response) => {
             alert("Registration Successful!");
         });
+
+        navigate('/');
   };
 
 
@@ -75,12 +73,12 @@ export default function Signup() {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" name="password" 
                                 onChange={(e)=> {
-                                setPassword(e.target.value);}}required />
+                                setPassword(e.target.value);}} required />
                         </Form.Group>
                         <Form.Group className="mt-3" id="role">
                             <Form.Select aria-label="Default select example"  name="role" 
                                     onChange={(e)=> {
-                                    setRole(e.target.value);}}required>
+                                    setRole(e.target.value);}} required>
                                 <option>Select Role</option>
                                 <option value="Student">Student</option>
                                 <option value="Admin">Admin</option>

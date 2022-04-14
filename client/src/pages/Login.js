@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { Card, Form, Button, Navbar, Container } from "react-bootstrap";
 import { Link, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
@@ -9,14 +9,9 @@ import "../pretty.css";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
   const [loginStatus, setLoginStatus] = useState(false);
   let navigate = useNavigate();
-  const routeChange = () => {
-    let path = `/home`;
-    navigate(path);
-  };
-
+  
   Axios.defaults.withCredentials = true;
 
 //   const login = () => {
@@ -125,7 +120,7 @@ export default function Login() {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" name="password" 
                                 onChange={(e)=> {
-                                setPassword(e.target.value);}}required />
+                                setPassword(e.target.value);}} required />
                         </Form.Group>
                         <Button className="w-100 mt-4" type="submit">Log In</Button>
                         <div className='w-100 text-center mt-2'>
